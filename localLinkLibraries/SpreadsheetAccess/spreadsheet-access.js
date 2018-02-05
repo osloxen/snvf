@@ -89,9 +89,35 @@ function GetSpreadsheetData(googleSpreadsheetID,
   };
 
 
-  this.callTheCallback = function(sheetInfo,callback) {
 
-    self.callerCallback(null,sheetInfo);
+  this.serverResponse = function(sheetInfo, callback) {
+
+    console.log('inside server response');
+
+    var sheetInfoObject = {};
+    sheetInfoObject.sheetDataArray = sheetInfo;
+
+    const res = {
+        "statusCode": 200,
+        "headers": {
+          'Content-Type': 'application/json',
+          "X-Requested-With": '*',
+          "Access-Control-Allow-Headers": 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with',
+          "Access-Control-Allow-Origin": '*',
+          "Access-Control-Allow-Methods": 'POST,GET,OPTIONS'
+        },
+        "body": JSON.stringify(sheetInfoObject) // body must be returned as a string
+      };
+
+    callback(null, res);
+  };
+
+
+  this.callTheCallback = function(serverResponse,callback) {
+
+    console.log('server response is: ', serverResponse);
+
+    self.callerCallback(null,serverResponse);
   };
 
 
@@ -121,6 +147,7 @@ exports.getGoogleSpreadsheetDataOneColumn = function(idForSpreadsheet,
     getSpreadsheetData.getWorksheet,
     getSpreadsheetData.getInfoFromSheet,
     getSpreadsheetData.debugPrintSpreadsheetArray,
+    getSpreadsheetData.serverResponse,
     getSpreadsheetData.callTheCallback
   ]
 );

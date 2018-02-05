@@ -59,11 +59,30 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
+
+  getCoachContactInfo:
+    handler: teamHandler.getCoachContactInfo
+    events:
+            - http:
+                path: /teams/get-coach-contact
+                method: get
+
+  getCoachReminder:
+    handler: teamHandler.getCoachReminder
+    events:
+            - http:
+                path: /teams/get-coach-reminder
+                method: get
 
   testSpreadsheetAccess:
     handler: handler.testSpreadsheetAccess
+
+  getClubNewsAndAnnouncements:
+    handler: handler.getClubNewsAndAnnouncements
+    events:
+            - http:
+                path: /news
+                method: get
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
